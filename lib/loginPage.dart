@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget{
 
@@ -8,20 +8,59 @@ class LoginPage extends StatefulWidget{
 
 }
 
+enum FormType{
+  login,
+  register
+}
 class _LoginPageState extends State<LoginPage> {
   final formKey  = new GlobalKey<FormState>();
 
   String _email;
   String _password;
+  FormType _formType = FormType.login;
 
-  void validateAndSave(){
+  bool validateAndSave(){
   final form = formKey.currentState;
     if (form.validate()) {
       form.save();
        print('Form is valid. Email $_email, password: $_password');
-     } else {
-      print('Form is INVALID. Email $_email, password: $_password');
-     }
+       return true;
+     } 
+     return false;
+  }
+
+  void validateAndSubmit() async{
+    if (validateAndSave()){
+             print('Form is valid. Email $_email, password: $_password');
+
+      try {
+         if  (_formType == FormType.login) {
+           FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email:_email,password:_password);
+           print(user.email);
+         }else{
+           FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email:_email,password:_password);
+          print(user.uid);
+        }
+
+      } catch (e) {
+        print( e);
+      }
+
+    }
+  }
+
+ void moveToRegister() {
+  formKey.currentState.reset();
+   setState((){
+      _formType = FormType.register;
+   });
+  }
+
+   void moveToLogin() {
+   formKey.currentState.reset();
+   setState((){
+      _formType = FormType.login;
+   });
   }
 
   @override
@@ -37,29 +76,57 @@ class _LoginPageState extends State<LoginPage> {
             key: formKey,
            child: new Column(
              crossAxisAlignment: CrossAxisAlignment.stretch,
-             children: <Widget>[
-               new TextFormField(
-                 decoration: new InputDecoration(labelText :'Email'),
-                 validator : (value)=> value.isEmpty ? 'Email can\'t be empty' : null,
-                  onSaved: (value) => _email = value ,
-               ),            
-               new TextFormField(
-                 decoration: new InputDecoration(labelText :'Password'),
-                 obscureText: true,
-                 validator : (value) => value.isEmpty ? 'Password can\'t be empty' : null ,
-                  onSaved: (value) => _password = value ,
-               ),
-                new RaisedButton(
-                  child : new Text('Login', style: new TextStyle(fontSize :20.0)),
-                  onPressed: validateAndSave,
-
-                ),
-             ],
+             children: 
+                buildUIInput() + buildUIButton() ,
+            
            ),
 
          ),
-       
        ),
      );
+  }
+
+  List <Widget> buildUIButton(){
+    if ( _formType == FormType.login ){
+      return[
+        new RaisedButton(
+            child : new Text('Login', style: new TextStyle(fontSize :20.0)),
+            onPressed: validateAndSubmit,
+
+          ),
+        new FlatButton(
+            child : new Text('Register', style: new TextStyle(fontSize :20.0)),
+            onPressed: moveToRegister,
+          )
+        ];
+    }else{
+      return [
+        new RaisedButton(
+            child : new Text('Create an account', style: new TextStyle(fontSize :20.0)),
+            onPressed: validateAndSubmit,
+
+          ),
+         new FlatButton(
+            child : new Text('Have an account ? Login', style: new TextStyle(fontSize :20.0)),
+            onPressed: moveToLogin,
+          )
+          ];
+    }
+  }
+
+  List<Widget> buildUIInput(){
+    return [
+      new TextFormField(
+        decoration: new InputDecoration(labelText :'Email'),
+        validator : (value)=> value.isEmpty ? 'Email can\'t be empty' : null,
+        onSaved: (value) => _email = value ,
+      ),            
+      new TextFormField(
+        decoration: new InputDecoration(labelText :'Password'),
+        obscureText: true,
+        validator : (value) => value.isEmpty ? 'Password can\'t be empty' : null ,
+        onSaved: (value) => _password = value ,
+      ),
+    ];
   }
 }
