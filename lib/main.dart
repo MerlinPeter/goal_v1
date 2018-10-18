@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'loginPage.dart';
+import 'rootPage.dart';
+import 'auth.dart';
 
 void main(){
   runApp(new MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget{
        title: 'Goal App Login' ,
        theme: new ThemeData( primarySwatch: Colors.blue,
      ),
-     home :new LoginPage()
+     home :new RootPage(auth: new Auth())
      );
   }
 }
