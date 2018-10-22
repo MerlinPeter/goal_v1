@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'auth.dart';
 import 'goalList.dart';
+import 'newGoal.dart';
 
 class HomePage extends StatelessWidget{
  HomePage({this.auth, this.onSignedOut});
@@ -16,17 +16,13 @@ class HomePage extends StatelessWidget{
     }
   }
 
-  void saveDB() async{
-    Firestore.instance.collection('goal').document().setData(
-      {'title': 'bible reading','status':false}
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context){
     return new Scaffold(
       appBar: new AppBar(
-        title : new Text('Welcome'),
+        title : new Text('Daily Goals'),
         actions: <Widget>[
           new FlatButton(
             child: new Text('Logout', style: new TextStyle(fontSize: 17.0 ,  color: Colors.white)),
@@ -36,21 +32,30 @@ class HomePage extends StatelessWidget{
         ],
       ),
       body: new GoalList(),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton:Column(
+         
+          mainAxisAlignment:  MainAxisAlignment.end,
+          crossAxisAlignment : CrossAxisAlignment.end,
+          children:<Widget>[ 
+            new FloatingActionButton(
+            heroTag: 'xxx',
             child: new Icon(Icons.add),
-            onPressed: saveDB,
-          )
+            onPressed: (){ Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GoalForm()),
+            );
+            },
+          ),
+          new FloatingActionButton(
+            child: new Icon(Icons.view_compact),
+            heroTag: 'yyy',
+            onPressed: (){ 
+              print("dont crash");
+            },
+          ),
+           ] 
+         )    
     );
   } 
 }
 
-/*new Container(
-        child: new Center(
-          child : //new Text('Welcome', style: new TextStyle(fontSize:32.0)) ,
-          
-            new FlatButton(
-            child: new Text('Save', style: new TextStyle(fontSize: 17.0 ,  color: Colors.green)),
-            onPressed: saveDB,
-          )
-        ),
-      )*/
