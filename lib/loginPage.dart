@@ -35,8 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void validateAndSubmit() async{
     if (validateAndSave()){
-             print('Form is valid. Email $_email, password: $_password');
-
+      print('Form is valid. Email $_email, password: $_password');
       try {
          if  (_formType == FormType.login) {
           String userId = await widget.auth.signInWithEmailAndPassword(_email, _password);
@@ -49,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
       } catch (e) {
         print( e);
       }
-
     }
   }
 

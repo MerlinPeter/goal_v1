@@ -3,25 +3,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'model/goal.dart';
 import 'package:intl/intl.dart';
 
-class GoalList extends StatelessWidget {
- //GoalList({ this.showCompleted});
-  //final bool showCompleted;
+class GoalList extends StatefulWidget {
+GoalList({this.showCompleted});
 
+  final  bool showCompleted;
+
+ @override
+State<StatefulWidget> createState()  => _GoalListState();
+
+}
+
+class _GoalListState extends State<GoalList>{
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
     final lastMidnight = new DateTime(now.year, now.month, now.day);
+    final tomorrowNoon = new DateTime(now.year, now.month, now.day + 1);
+    Stream<QuerySnapshot> query;
+  
+    query =  Firestore.instance.collection('goal') 
+                                                  .where('status', isEqualTo: false)
+                                                  .where('goal_date',isGreaterThanOrEqualTo: lastMidnight)
+                                                  .where('goal_date',isLessThan: tomorrowNoon)
+                                                  .orderBy('goal_date', descending: false)
+                                                  .snapshots();
+    if (widget.showCompleted){
+         query =  Firestore.instance.collection('goal') 
+                                                  .where('goal_date',isGreaterThanOrEqualTo: lastMidnight)
+                                                  .where('goal_date',isLessThan: tomorrowNoon)
+                                                  .orderBy('goal_date', descending: false)
+                                                  .snapshots();
+    }
+  
     return StreamBuilder<QuerySnapshot>(
-      //where('goal_date',isGreaterThanOrEqualTo: lastMidnight)
-      stream: Firestore.instance.collection('goal')//.orderBy('created_dt',descending: false)
-                                                   //.where('status',isEqualTo: false)
-                                                    .where('goal_date',isGreaterThanOrEqualTo: lastMidnight)
-                                                  // .where('status',isEqualTo: false)
-                                                    // .where('title',isEqualTo: 'test')
-                                                    .orderBy('goal_date',descending: true)
-                                                    //.orderBy('status',descending: true)
-                                                   .snapshots(),
+       stream: query,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError)
           return new Text('Error: ${snapshot.error}');
@@ -32,7 +48,7 @@ class GoalList extends StatelessWidget {
               children: snapshot.data.documents.map((DocumentSnapshot document) {
                  var goal =  Goal.fromMap(document.data);
                 print(goal.toMap());
-                print(document.exists);
+                 print('show completed goal list :  ' + widget.showCompleted.toString());
                  return new ListTile(
                  leading: new IconButton(icon:Icon( goal.status? Icons.radio_button_checked : Icons.radio_button_unchecked,
                     )

@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'model/goal.dart';
 
 class GoalForm extends StatefulWidget{
-
 @override
 State<StatefulWidget> createState() => _GoalFormState();
 }
@@ -46,7 +45,6 @@ class _GoalFormState extends State<GoalForm> {
                 false, 
                 new DateTime.now(),
                 _goalDate).toMap(),
-                
         );
        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Saving Data')));
        Navigator.pop(context);         
