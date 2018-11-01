@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
 import 'goalList.dart';
+import 'goalListDaily.dart';
 import 'newGoal.dart';
 
 class HomePage extends StatefulWidget{
@@ -35,10 +36,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context){
-    print('completed' +_showCompleted.toString());
-    return new Scaffold(
+     return new Scaffold(
       appBar: new AppBar(
-        title : new Text('Daily Goals'),
+        title : new Text(' Goals'),
         actions: <Widget>[
              new FlatButton(
             child: new Icon(Icons.check_box ,color: Colors.white,) ,
@@ -61,8 +61,24 @@ class _HomePageState extends State<HomePage> {
                       _showCompleted ? "Hide Completed" : "Show Completed",
                     )
                 ),*/
-            new GoalList(showCompleted:_showCompleted ),
-     // ]
+                Column(
+ 
+                children: <Widget>[
+                    Text(
+                    'Todays Goals',
+                    textAlign: TextAlign.center,
+                     style: TextStyle(color:Colors.redAccent ,fontWeight: FontWeight.bold),
+                    ),
+                    new GoalList(showCompleted:_showCompleted ),
+                    Text(
+                    'Repeating Daily Goals',
+                    textAlign: TextAlign.center,
+                     style: TextStyle(color:Colors.redAccent ,fontWeight: FontWeight.bold),
+                    ),
+                    new GoalListDaily(showCompleted:_showCompleted )
+                ],
+                ),
+      // ]
      // ),
       floatingActionButton:
             new FloatingActionButton(
@@ -73,10 +89,7 @@ class _HomePageState extends State<HomePage> {
               MaterialPageRoute(builder: (context) => GoalForm()),
             );
             },
-          )
-
-           
-           
+          ) 
     );
   } 
 }

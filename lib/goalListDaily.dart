@@ -3,17 +3,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'model/goal.dart';
 import 'package:intl/intl.dart';
 
-class GoalList extends StatefulWidget {
-GoalList({this.showCompleted});
+class GoalListDaily extends StatefulWidget {
+GoalListDaily({this.showCompleted});
 
   final  bool showCompleted;
 
  @override
-State<StatefulWidget> createState()  => _GoalListState();
+State<StatefulWidget> createState()  => _GoalListDailyState();
 
 }
 
-class _GoalListState extends State<GoalList>{
+class _GoalListDailyState extends State<GoalListDaily>{
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,8 @@ class _GoalListState extends State<GoalList>{
                                                   .orderBy('goal_date', descending: false)
                                                   .snapshots();
     if (widget.showCompleted){
-
-
          query =  Firestore.instance.collection('goal') 
-                                                  //.where('goal_type',isLessThanOrEqualTo: 1)
-                                                  .where('goal_date',isGreaterThanOrEqualTo: lastMidnight)
-                                                  .where('goal_date',isLessThan: tomorrowNoon)
-                                                  .orderBy('goal_date', descending: false)
+                                                  .where('goal_type',isEqualTo: 1)
                                                   .snapshots();
      }
   
@@ -62,21 +57,21 @@ class _GoalListState extends State<GoalList>{
                       );
                     }  
                   ) ,
+
                   title: new Text(goal.title   ,style:TextStyle(color:Colors.green ,fontWeight: FontWeight.bold)),
                   subtitle: Row(
                                   mainAxisAlignment:  MainAxisAlignment.spaceBetween,
                                   children:<Widget>[
                                    new Text(goal.status ? "Completed":"New" ),
-                                   new Text( 'Time : ' + DateFormat.jm().format(goal.goaltime).toString() )
+                                   new Text( 'Time : ' +DateFormat.jm().format(goal.goaltime).toString() )
                                    ]
                                   ),
                   trailing: new IconButton(icon:Icon(Icons.delete), onPressed: () {
-                                document.reference.delete();
-                              }  
-                            ) ,
-              );
-            }).toList(),
-          );
+                    document.reference.delete();
+                  }  ) ,
+                );
+              }).toList(),
+            );
         }
       },
     );

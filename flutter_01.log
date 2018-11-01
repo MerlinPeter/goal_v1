@@ -9,10 +9,10 @@ flutter run
 String: Exit code 1 from: /usr/bin/xcrun simctl install 5759155D-64F8-42A1-83F8-15D1D3404000 /Users/pejoseph/development/workspace/goal_v1/build/ios/iphonesimulator/Runner.app:
 An error was encountered processing the command (domain=IXUserPresentableErrorDomain, code=1):
 This app could not be installed at this time.
-Failed to load Info.plist from bundle at path /Users/pejoseph/Library/Developer/CoreSimulator/Devices/5759155D-64F8-42A1-83F8-15D1D3404000/data/Library/Caches/com.apple.mobile.installd.staging/temp.6Aq8G0/extracted/Payload/Runner.app
-Failed to load Info.plist from bundle at path /Users/pejoseph/Library/Developer/CoreSimulator/Devices/5759155D-64F8-42A1-83F8-15D1D3404000/data/Library/Caches/com.apple.mobile.installd.staging/temp.6Aq8G0/extracted/Payload/Runner.app
+Failed to load Info.plist from bundle at path /Users/pejoseph/Library/Developer/CoreSimulator/Devices/5759155D-64F8-42A1-83F8-15D1D3404000/data/Library/Caches/com.apple.mobile.installd.staging/temp.WMfCfj/extracted/Payload/Runner.app
+Failed to load Info.plist from bundle at path /Users/pejoseph/Library/Developer/CoreSimulator/Devices/5759155D-64F8-42A1-83F8-15D1D3404000/data/Library/Caches/com.apple.mobile.installd.staging/temp.WMfCfj/extracted/Payload/Runner.app
 Underlying error (domain=MIInstallerErrorDomain, code=35):
-	Failed to load Info.plist from bundle at path /Users/pejoseph/Library/Developer/CoreSimulator/Devices/5759155D-64F8-42A1-83F8-15D1D3404000/data/Library/Caches/com.apple.mobile.installd.staging/temp.6Aq8G0/extracted/Payload/Runner.app
+	Failed to load Info.plist from bundle at path /Users/pejoseph/Library/Developer/CoreSimulator/Devices/5759155D-64F8-42A1-83F8-15D1D3404000/data/Library/Caches/com.apple.mobile.installd.staging/temp.WMfCfj/extracted/Payload/Runner.app
 
 ```
 #0      runCheckedAsync (package:flutter_tools/src/base/process.dart:251:5)
@@ -88,7 +88,7 @@ Underlying error (domain=MIInstallerErrorDomain, code=35):
 ```
 [✓] Flutter (Channel beta, v0.9.4, on Mac OS X 10.13.6 17G65, locale en-US)
     • Flutter version 0.9.4 at /Users/pejoseph/development/flutter
-    • Framework revision f37c235c32 (3 weeks ago), 2018-09-25 17:45:40 -0400
+    • Framework revision f37c235c32 (5 weeks ago), 2018-09-25 17:45:40 -0400
     • Engine revision 74625aed32
     • Dart version 2.1.0-dev.5.0.flutter-a2eb050044
 
